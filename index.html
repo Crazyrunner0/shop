@@ -19,6 +19,42 @@
             padding: 16px;
             padding-bottom: 100px;
             min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Анимированный фон */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                45deg,
+                rgba(51, 144, 236, 0.05) 0%,
+                rgba(51, 144, 236, 0.02) 25%,
+                rgba(51, 144, 236, 0.05) 50%,
+                rgba(51, 144, 236, 0.02) 75%,
+                rgba(51, 144, 236, 0.05) 100%
+            );
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         .container {
@@ -77,29 +113,44 @@
         }
 
         .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
             margin-bottom: 24px;
+            align-items: center;
         }
 
         @media (max-width: 480px) {
-            .product-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
+            .product-card {
+                padding: 20px;
+                max-width: 100%;
+            }
+            
+            .product-title {
+                font-size: 20px;
+            }
+            
+            .product-description {
+                font-size: 14px;
+            }
+            
+            .product-price {
+                font-size: 24px;
             }
         }
 
         .product-card {
             background: var(--tg-theme-secondary-bg-color, #2a2a2a);
-            border-radius: 16px;
-            padding: 16px;
+            border-radius: 20px;
+            padding: 24px;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
             transition: all 0.3s ease;
             position: relative;
             border: 2px solid transparent;
+            width: 100%;
+            max-width: 500px;
         }
 
         .product-card:hover {
@@ -114,14 +165,14 @@
 
         .product-image {
             width: 100%;
-            aspect-ratio: 1;
+            aspect-ratio: 16/9;
             background: var(--tg-theme-bg-color, #1a1a1a);
-            border-radius: 12px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 12px;
-            font-size: 56px;
+            margin-bottom: 16px;
+            font-size: 64px;
             color: var(--tg-theme-hint-color, #666666);
             overflow: hidden;
             position: relative;
@@ -138,24 +189,30 @@
         }
 
         .product-title {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 8px;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
             color: var(--tg-theme-text-color, #ffffff);
             text-align: center;
             line-height: 1.3;
-            min-height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        }
+
+        .product-description {
+            font-size: 15px;
+            font-weight: 400;
+            color: var(--tg-theme-hint-color, #999999);
+            text-align: center;
+            line-height: 1.5;
+            margin-bottom: 16px;
+            padding: 0 8px;
         }
 
         .product-price {
-            font-size: 20px;
+            font-size: 28px;
             font-weight: 700;
             color: var(--tg-theme-button-color, #3390ec);
             text-align: center;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
         }
 
         .product-actions {
@@ -168,17 +225,17 @@
 
         .cart-button {
             flex: 1;
-            padding: 10px 16px;
+            padding: 14px 20px;
             border: none;
-            border-radius: 10px;
-            font-size: 14px;
+            border-radius: 12px;
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 8px;
         }
 
         .cart-button.add {
@@ -204,20 +261,20 @@
         .quantity-control {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
             background: var(--tg-theme-bg-color, #1a1a1a);
-            border-radius: 10px;
-            padding: 6px 8px;
+            border-radius: 12px;
+            padding: 8px 12px;
         }
 
         .quantity-btn {
-            width: 32px;
-            height: 32px;
+            width: 40px;
+            height: 40px;
             border: none;
             background: var(--tg-theme-button-color, #3390ec);
             color: var(--tg-theme-button-text-color, #ffffff);
-            border-radius: 8px;
-            font-size: 18px;
+            border-radius: 10px;
+            font-size: 20px;
             font-weight: 700;
             cursor: pointer;
             display: flex;
@@ -237,10 +294,10 @@
         }
 
         .quantity-value {
-            min-width: 30px;
+            min-width: 40px;
             text-align: center;
             font-weight: 700;
-            font-size: 16px;
+            font-size: 18px;
             color: var(--tg-theme-text-color, #ffffff);
         }
 
@@ -481,28 +538,32 @@
                 title: "Ноутбук",
                 price: 50000,
                 image_placeholder: "💻",
-                image_url: "https://hyperpc.ru/images/support/articles/the-best-gaming-laptops-in-2023-2024/the-best-gaming-notebook_webp.jpg"
+                image_url: "https://hyperpc.ru/images/support/articles/the-best-gaming-laptops-in-2023-2024/the-best-gaming-notebook_webp.jpg",
+                description: "Мощный игровой ноутбук с производительным процессором и современной видеокартой. Идеален для работы, игр и творческих задач. Высокое качество сборки и стильный дизайн."
             },
             {
                 id: "2",
                 title: "Смартфон",
                 price: 30000,
                 image_placeholder: "📱",
-                image_url: "https://skillbox.ru/upload/setka_images/07113425092024_d75dd4921f9f5ca9dc828e1efafbd5a21dfa9c5d.jpg"
+                image_url: "https://skillbox.ru/upload/setka_images/07113425092024_d75dd4921f9f5ca9dc828e1efafbd5a21dfa9c5d.jpg",
+                description: "Современный смартфон с отличной камерой и быстрым процессором. Яркий дисплей, долгая батарея и поддержка всех современных технологий. Ваш надежный спутник в цифровом мире."
             },
             {
                 id: "3",
                 title: "Наушники",
                 price: 5000,
                 image_placeholder: "🎧",
-                image_url: "https://storage.npshopping.com/images/posts/66632808d6b11589749625.webp"
+                image_url: "https://storage.npshopping.com/images/posts/66632808d6b11589749625.webp",
+                description: "Беспроводные наушники премиум-класса с активным шумоподавлением. Кристально чистый звук, комфортная посадка и длительное время работы. Погрузитесь в мир музыки без отвлечений."
             },
             {
                 id: "4",
                 title: "Клавиатура",
                 price: 3000,
                 image_placeholder: "⌨️",
-                image_url: "https://cdn.lifehacker.ru/wp-content/uploads/2024/07/202310071746111_1721627267.jpg"
+                image_url: "https://cdn.lifehacker.ru/wp-content/uploads/2024/07/202310071746111_1721627267.jpg",
+                description: "Механическая клавиатура для геймеров и профессионалов. Тактильная отдача, RGB подсветка и долговечные переключатели. Максимальный комфорт при работе и играх."
             }
         ];
 
@@ -660,6 +721,7 @@
                         }
                     </div>
                     <div class="product-title">${product.title}</div>
+                    ${product.description ? `<div class="product-description">${product.description}</div>` : ''}
                     <div class="product-price">${product.price.toLocaleString()} ₽</div>
                     <div class="product-actions">
                         ${actionButton}
@@ -741,5 +803,3 @@
     </script>
 </body>
 </html>
-
-
