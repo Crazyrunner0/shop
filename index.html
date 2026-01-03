@@ -457,6 +457,36 @@
             text-align: center;
         }
 
+        .cart-item-actions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 8px;
+            width: 100%;
+        }
+
+        .delete-item-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: var(--tg-theme-destructive-text-color, #ff3b30);
+            color: var(--tg-theme-button-text-color, #ffffff);
+        }
+
+        .delete-item-btn:active {
+            transform: scale(0.95);
+            opacity: 0.8;
+        }
+
         .cart-empty-message {
             text-align: center;
             padding: 60px 20px;
@@ -645,6 +675,12 @@
                                 <button class="quantity-btn" onclick="addToCart('${product.id}'); renderCart();">+</button>
                             </div>
                             <div class="cart-item-total">Итого: ${itemTotal.toLocaleString()} ₽</div>
+                            <div class="cart-item-actions">
+                                <button class="delete-item-btn" onclick="deleteFromCart('${product.id}'); renderCart();">
+                                    <span>🗑️</span>
+                                    <span>Удалить</span>
+                                </button>
+                            </div>
                         </div>
                     `;
                     
@@ -664,13 +700,22 @@
             }
         }
 
-        // Функция для удаления товара из корзины
+        // Функция для удаления товара из корзины (уменьшение количества)
         function removeFromCart(id) {
             if (cart[id] && cart[id] > 1) {
                 cart[id]--;
             } else {
                 delete cart[id];
             }
+            updateUI();
+            if (isCartOpen) {
+                renderCart();
+            }
+        }
+
+        // Функция для полного удаления товара из корзины
+        function deleteFromCart(id) {
+            delete cart[id];
             updateUI();
             if (isCartOpen) {
                 renderCart();
